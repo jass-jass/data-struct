@@ -33,13 +33,32 @@ int find_missing(int n, vector<int> in)
 	}
 	if(in.at(low) == (in.at(high)-1))
 	{
-		if(in.at(low) != 1)
+		if((in.at(low) != 1) && (low==0))
 		{
 			return 1;
 		}
 		else
 		{
 			return n+1;
+		}
+	}
+	else if(low == high)
+	{
+		if(low == 0)
+		{
+			if(in.at(low)==1)
+			{
+				return 2;
+			}
+			else return 1;
+		}
+		else
+		{
+			if(in.at(low)==n+1)
+			{
+				return n;
+			}
+			else return (n+1);
 		}
 	}
 	return (in.at(low)+1);
