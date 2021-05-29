@@ -2,45 +2,39 @@
 
 using namespace std;
 
-int greatest(vector<int> count)
+int get_long_rep(int len, string in)
 {
-    int great = count[0];
-    int size = count.size();
-    for(int i = 1; i<size; i++)
-    {
-        if(great<count[i])
-            great = count[i];
-    }
-    return great;
-}
-
-int get_long_rep(string in)
-{
-    int index = (in.length() -1), count=0;
-    vector<int> count_vect;
+    int index = 0, count=1, great=1;
     char ref = in.at(index);
-    while (index>=0)
+    while (index<(len-1))
     {
-        --index;
+        ++index;
         if(in.at(index) == ref)
         {
             count ++;
         }
         else
         {
-            count_vect.push_back(count);
-            count = 0;
+            if(count>great)
+            {
+                great = count;
+            }
+            count = 1;
             ref = in.at(index);
         }
     }
-    return greatest(count_vect);
+    if(count>great)
+            {
+                great = count;
+            }
+    return great;
 }
 
 int main(void)
 {
     string in;
     cin >> in;
-    int len = get_long_rep(in);
+    int len = get_long_rep(in.length(), in);
     cout << len;
     return 0;
 }
