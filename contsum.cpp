@@ -2,11 +2,11 @@
 
 using namespace std;
 
-void input_array(int n, int arr[n])
+void input_array(int n, int arr[])
 {
 	for(int i=0; i<n; i++)
 	{
-		cin >> arr[n];
+		cin >> arr[i];
 	}
 }
 
@@ -17,7 +17,7 @@ int largest(vector<int> sum)
 	return sum[--last];
 }
 
-int continuous_sum(int n, int arr[n])
+int continuous_sum(int n, int arr[])
 {
 	int sum;
 	vector<int> sum_vect;
