@@ -16,8 +16,7 @@ void input(int n, Item item[])
 {
 	for(int i=0; i<n; i++)
 	{
-		scanf("%c %f %f",&item[i].label, &item[i].weight, &item[i].value);
-		//scanf("%*c");
+		cin >> item[i].label >> item[i].weight >> item[i].value;
 	}
 }
 
@@ -29,19 +28,11 @@ void get_value_per_unitwt(int n, Item item[])
 	}
 }
 
-Fract decimal_to_fraction(double in)
+int get_gcd(int a, int b)
 {
-    Fract fraction;
-    fraction.num=0, fraction.den=1;
-    int n = in;
-    while(n > 0)
-    {
-        fraction.num = (fraction.num*10) + n;
-        fraction.den *= 10;
-        in = (in - n)*10;
-        n = in;
-    }
-    return fraction;
+    if (a == 0)
+        return b;
+    return get_gcd(b % a, a);
 }
 
 bool compare(Item a, Item b)
@@ -56,14 +47,21 @@ void get_fraction(double total, int n, Item item[], Fract fraction[])
 	int i = 0;
 	while(total>0)
 	{
-		if((total-item[i].weight)<0)
+		if(item[i].weight<total)
 		{
 			fraction[i].num = 1;
+			fraction[i].den = 1;
+			total -= item[i].weight;
+			++i;
 		}
 		else
 		{
-			total*= -1.0;
-			fraction[i] = decimal_to_fraction(total);
+			fraction[i].num = total;
+			fraction[i].den = item[i].weight;
+			int gcd = get_gcd(fraction[i].num, fraction[i].den);
+			fraction[i].num /= gcd;
+			fraction[i].den /= gcd;
+			break;
 		}
 	}
 }
@@ -73,7 +71,8 @@ void output(int n, Item item[], Fract fraction[])
 	int i=0;
 	while(fraction[i].num!=0)
 	{
-		printf("%d/%d of %c\n", fraction[i].num, fraction[i].den, item[i].label);
+		printf("\n%d/%d of %c", fraction[i].num, fraction[i].den, item[i].label);
+		++i;
 	}
 }
 
@@ -83,7 +82,7 @@ int main(void)
 	double total;
 	cin >> n;
 	Item item[n];
-	Fract fraction[n] = {0};
+	Fract fraction[(n+1)] = {0};
 	input(n, item);
 	cin >> total;
 	get_fraction(total, n, item, fraction);
